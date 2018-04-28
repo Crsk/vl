@@ -24,7 +24,7 @@ namespace _vistalibre.model
         public int id { get; set; }
         public Nullable<int> region_id { get; set; }
         public Nullable<int> tipo_vidrio_id { get; set; }
-        public Nullable<int> descuento { get; set; }
+        public int descuento { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<cotizaciones_complementarios> cotizaciones_complementarios { get; set; }

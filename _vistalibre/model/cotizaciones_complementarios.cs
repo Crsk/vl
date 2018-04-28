@@ -15,7 +15,7 @@ namespace _vistalibre.model
     public partial class cotizaciones_complementarios
     {
         public int id { get; set; }
-        public Nullable<int> monto { get; set; }
+        public int monto { get; set; }
         public string detalle { get; set; }
         public Nullable<int> cotizacion_id { get; set; }
     

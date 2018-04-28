@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="DataBaseModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.7" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="DataBaseModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.7" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="cotizaciones">
           <Key>
             <PropertyRef Name="id" />
@@ -12,14 +12,14 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="region_id" Type="int" />
           <Property Name="tipo_vidrio_id" Type="int" />
-          <Property Name="descuento" Type="int" />
+          <Property Name="descuento" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="cotizaciones_complementarios">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="monto" Type="int" />
+          <Property Name="monto" Type="int" Nullable="false" />
           <Property Name="detalle" Type="varchar" MaxLength="50" />
           <Property Name="cotizacion_id" Type="int" />
         </EntityType>
@@ -28,11 +28,11 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="codigo" Type="varchar" MaxLength="5" />
+          <Property Name="codigo_reg" Type="varchar" MaxLength="45" />
           <Property Name="index" Type="varchar" MaxLength="45" />
           <Property Name="nombre" Type="varchar" MaxLength="45" />
-          <Property Name="costo_viaje" Type="int" />
-          <Property Name="taza_imprevisto" Type="int" />
+          <Property Name="costo_viaje" Type="int" Nullable="false" />
+          <Property Name="taza_imprevisto" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="tipo_vidrio">
           <Key>
@@ -40,7 +40,7 @@
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="nombre" Type="varchar" MaxLength="45" />
-          <Property Name="precio" Type="int" />
+          <Property Name="precio" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="vanos">
           <Key>
@@ -123,11 +123,33 @@
             <End Role="vanos" EntitySet="vanos" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="DataBaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="DataBase" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="cotizaciones" EntityType="DataBaseModel.cotizaciones" />
+          <EntitySet Name="cotizaciones_complementarios" EntityType="DataBaseModel.cotizaciones_complementarios" />
+          <EntitySet Name="regiones" EntityType="DataBaseModel.regiones" />
+          <EntitySet Name="tipo_vidrio" EntityType="DataBaseModel.tipo_vidrio" />
+          <EntitySet Name="vanos" EntityType="DataBaseModel.vanos" />
+          <AssociationSet Name="cotizaciones_complementarios_ibfk_1" Association="DataBaseModel.cotizaciones_complementarios_ibfk_1">
+            <End Role="cotizaciones" EntitySet="cotizaciones" />
+            <End Role="cotizaciones_complementarios" EntitySet="cotizaciones_complementarios" />
+          </AssociationSet>
+          <AssociationSet Name="cotizaciones_ibfk_1" Association="DataBaseModel.cotizaciones_ibfk_1">
+            <End Role="regiones" EntitySet="regiones" />
+            <End Role="cotizaciones" EntitySet="cotizaciones" />
+          </AssociationSet>
+          <AssociationSet Name="cotizaciones_ibfk_2" Association="DataBaseModel.cotizaciones_ibfk_2">
+            <End Role="tipo_vidrio" EntitySet="tipo_vidrio" />
+            <End Role="cotizaciones" EntitySet="cotizaciones" />
+          </AssociationSet>
+          <AssociationSet Name="vanos_ibfk_1" Association="DataBaseModel.vanos_ibfk_1">
+            <End Role="cotizaciones" EntitySet="cotizaciones" />
+            <End Role="vanos" EntitySet="vanos" />
+          </AssociationSet>
+        </EntityContainer>
         <EntityType Name="cotizaciones">
           <Key>
             <PropertyRef Name="id" />
@@ -135,33 +157,33 @@
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="region_id" Type="Int32" />
           <Property Name="tipo_vidrio_id" Type="Int32" />
-          <Property Name="descuento" Type="Int32" />
-          <NavigationProperty Name="cotizaciones_complementarios" Relationship="Self.cotizaciones_complementarios_ibfk_1" FromRole="cotizaciones" ToRole="cotizaciones_complementarios" />
-          <NavigationProperty Name="regiones" Relationship="Self.cotizaciones_ibfk_1" FromRole="cotizaciones" ToRole="regiones" />
-          <NavigationProperty Name="tipo_vidrio" Relationship="Self.cotizaciones_ibfk_2" FromRole="cotizaciones" ToRole="tipo_vidrio" />
-          <NavigationProperty Name="vanos" Relationship="Self.vanos_ibfk_1" FromRole="cotizaciones" ToRole="vanos" />
+          <Property Name="descuento" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="cotizaciones_complementarios" Relationship="DataBaseModel.cotizaciones_complementarios_ibfk_1" FromRole="cotizaciones" ToRole="cotizaciones_complementarios" />
+          <NavigationProperty Name="regiones" Relationship="DataBaseModel.cotizaciones_ibfk_1" FromRole="cotizaciones" ToRole="regiones" />
+          <NavigationProperty Name="tipo_vidrio" Relationship="DataBaseModel.cotizaciones_ibfk_2" FromRole="cotizaciones" ToRole="tipo_vidrio" />
+          <NavigationProperty Name="vanos" Relationship="DataBaseModel.vanos_ibfk_1" FromRole="cotizaciones" ToRole="vanos" />
         </EntityType>
         <EntityType Name="cotizaciones_complementarios">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="monto" Type="Int32" />
+          <Property Name="monto" Type="Int32" Nullable="false" />
           <Property Name="detalle" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="cotizacion_id" Type="Int32" />
-          <NavigationProperty Name="cotizaciones" Relationship="Self.cotizaciones_complementarios_ibfk_1" FromRole="cotizaciones_complementarios" ToRole="cotizaciones" />
+          <NavigationProperty Name="cotizaciones" Relationship="DataBaseModel.cotizaciones_complementarios_ibfk_1" FromRole="cotizaciones_complementarios" ToRole="cotizaciones" />
         </EntityType>
         <EntityType Name="regiones">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="codigo" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="codigo_reg" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
           <Property Name="index" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
           <Property Name="nombre" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
-          <Property Name="costo_viaje" Type="Int32" />
-          <Property Name="taza_imprevisto" Type="Int32" />
-          <NavigationProperty Name="cotizaciones" Relationship="Self.cotizaciones_ibfk_1" FromRole="regiones" ToRole="cotizaciones" />
+          <Property Name="costo_viaje" Type="Int32" Nullable="false" />
+          <Property Name="taza_imprevisto" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="cotizaciones" Relationship="DataBaseModel.cotizaciones_ibfk_1" FromRole="regiones" ToRole="cotizaciones" />
         </EntityType>
         <EntityType Name="tipo_vidrio">
           <Key>
@@ -169,8 +191,8 @@
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="nombre" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
-          <Property Name="precio" Type="Int32" />
-          <NavigationProperty Name="cotizaciones" Relationship="Self.cotizaciones_ibfk_2" FromRole="tipo_vidrio" ToRole="cotizaciones" />
+          <Property Name="precio" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="cotizaciones" Relationship="DataBaseModel.cotizaciones_ibfk_2" FromRole="tipo_vidrio" ToRole="cotizaciones" />
         </EntityType>
         <EntityType Name="vanos">
           <Key>
@@ -181,11 +203,11 @@
           <Property Name="ancho" Type="Decimal" />
           <Property Name="alto" Type="Decimal" />
           <Property Name="cotizacion_id" Type="Int32" />
-          <NavigationProperty Name="cotizaciones" Relationship="Self.vanos_ibfk_1" FromRole="vanos" ToRole="cotizaciones" />
+          <NavigationProperty Name="cotizaciones" Relationship="DataBaseModel.vanos_ibfk_1" FromRole="vanos" ToRole="cotizaciones" />
         </EntityType>
         <Association Name="cotizaciones_complementarios_ibfk_1">
-          <End Role="cotizaciones" Type="Self.cotizaciones" Multiplicity="0..1" />
-          <End Role="cotizaciones_complementarios" Type="Self.cotizaciones_complementarios" Multiplicity="*" />
+          <End Type="DataBaseModel.cotizaciones" Role="cotizaciones" Multiplicity="0..1" />
+          <End Type="DataBaseModel.cotizaciones_complementarios" Role="cotizaciones_complementarios" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="cotizaciones">
               <PropertyRef Name="id" />
@@ -196,8 +218,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="cotizaciones_ibfk_1">
-          <End Role="regiones" Type="Self.regiones" Multiplicity="0..1" />
-          <End Role="cotizaciones" Type="Self.cotizaciones" Multiplicity="*" />
+          <End Type="DataBaseModel.regiones" Role="regiones" Multiplicity="0..1" />
+          <End Type="DataBaseModel.cotizaciones" Role="cotizaciones" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="regiones">
               <PropertyRef Name="id" />
@@ -208,8 +230,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="cotizaciones_ibfk_2">
-          <End Role="tipo_vidrio" Type="Self.tipo_vidrio" Multiplicity="0..1" />
-          <End Role="cotizaciones" Type="Self.cotizaciones" Multiplicity="*" />
+          <End Type="DataBaseModel.tipo_vidrio" Role="tipo_vidrio" Multiplicity="0..1" />
+          <End Type="DataBaseModel.cotizaciones" Role="cotizaciones" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tipo_vidrio">
               <PropertyRef Name="id" />
@@ -220,8 +242,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="vanos_ibfk_1">
-          <End Role="cotizaciones" Type="Self.cotizaciones" Multiplicity="0..1" />
-          <End Role="vanos" Type="Self.vanos" Multiplicity="*" />
+          <End Type="DataBaseModel.cotizaciones" Role="cotizaciones" Multiplicity="0..1" />
+          <End Type="DataBaseModel.vanos" Role="vanos" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="cotizaciones">
               <PropertyRef Name="id" />
@@ -231,29 +253,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="DataBase" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="cotizaciones" EntityType="Self.cotizaciones" />
-          <EntitySet Name="cotizaciones_complementarios" EntityType="Self.cotizaciones_complementarios" />
-          <EntitySet Name="regiones" EntityType="Self.regiones" />
-          <EntitySet Name="tipo_vidrio" EntityType="Self.tipo_vidrio" />
-          <EntitySet Name="vanos" EntityType="Self.vanos" />
-          <AssociationSet Name="cotizaciones_complementarios_ibfk_1" Association="Self.cotizaciones_complementarios_ibfk_1">
-            <End Role="cotizaciones" EntitySet="cotizaciones" />
-            <End Role="cotizaciones_complementarios" EntitySet="cotizaciones_complementarios" />
-          </AssociationSet>
-          <AssociationSet Name="cotizaciones_ibfk_1" Association="Self.cotizaciones_ibfk_1">
-            <End Role="regiones" EntitySet="regiones" />
-            <End Role="cotizaciones" EntitySet="cotizaciones" />
-          </AssociationSet>
-          <AssociationSet Name="cotizaciones_ibfk_2" Association="Self.cotizaciones_ibfk_2">
-            <End Role="tipo_vidrio" EntitySet="tipo_vidrio" />
-            <End Role="cotizaciones" EntitySet="cotizaciones" />
-          </AssociationSet>
-          <AssociationSet Name="vanos_ibfk_1" Association="Self.vanos_ibfk_1">
-            <End Role="cotizaciones" EntitySet="cotizaciones" />
-            <End Role="vanos" EntitySet="vanos" />
-          </AssociationSet>
-        </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -263,52 +262,52 @@
           <EntitySetMapping Name="cotizaciones">
             <EntityTypeMapping TypeName="DataBaseModel.cotizaciones">
               <MappingFragment StoreEntitySet="cotizaciones">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="region_id" ColumnName="region_id" />
-                <ScalarProperty Name="tipo_vidrio_id" ColumnName="tipo_vidrio_id" />
                 <ScalarProperty Name="descuento" ColumnName="descuento" />
+                <ScalarProperty Name="tipo_vidrio_id" ColumnName="tipo_vidrio_id" />
+                <ScalarProperty Name="region_id" ColumnName="region_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="cotizaciones_complementarios">
             <EntityTypeMapping TypeName="DataBaseModel.cotizaciones_complementarios">
               <MappingFragment StoreEntitySet="cotizaciones_complementarios">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="monto" ColumnName="monto" />
-                <ScalarProperty Name="detalle" ColumnName="detalle" />
                 <ScalarProperty Name="cotizacion_id" ColumnName="cotizacion_id" />
+                <ScalarProperty Name="detalle" ColumnName="detalle" />
+                <ScalarProperty Name="monto" ColumnName="monto" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="regiones">
             <EntityTypeMapping TypeName="DataBaseModel.regiones">
               <MappingFragment StoreEntitySet="regiones">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="codigo" ColumnName="codigo" />
-                <ScalarProperty Name="index" ColumnName="index" />
-                <ScalarProperty Name="nombre" ColumnName="nombre" />
-                <ScalarProperty Name="costo_viaje" ColumnName="costo_viaje" />
                 <ScalarProperty Name="taza_imprevisto" ColumnName="taza_imprevisto" />
+                <ScalarProperty Name="costo_viaje" ColumnName="costo_viaje" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="index" ColumnName="index" />
+                <ScalarProperty Name="codigo_reg" ColumnName="codigo_reg" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tipo_vidrio">
             <EntityTypeMapping TypeName="DataBaseModel.tipo_vidrio">
               <MappingFragment StoreEntitySet="tipo_vidrio">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="nombre" ColumnName="nombre" />
                 <ScalarProperty Name="precio" ColumnName="precio" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="vanos">
             <EntityTypeMapping TypeName="DataBaseModel.vanos">
               <MappingFragment StoreEntitySet="vanos">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="cantidad_aperturas" ColumnName="cantidad_aperturas" />
-                <ScalarProperty Name="ancho" ColumnName="ancho" />
-                <ScalarProperty Name="alto" ColumnName="alto" />
                 <ScalarProperty Name="cotizacion_id" ColumnName="cotizacion_id" />
+                <ScalarProperty Name="alto" ColumnName="alto" />
+                <ScalarProperty Name="ancho" ColumnName="ancho" />
+                <ScalarProperty Name="cantidad_aperturas" ColumnName="cantidad_aperturas" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

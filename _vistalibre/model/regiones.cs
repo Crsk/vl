@@ -21,11 +21,11 @@ namespace _vistalibre.model
         }
     
         public int id { get; set; }
-        public string codigo { get; set; }
+        public string codigo_reg { get; set; }
         public string index { get; set; }
         public string nombre { get; set; }
-        public Nullable<int> costo_viaje { get; set; }
-        public Nullable<int> taza_imprevisto { get; set; }
+        public int costo_viaje { get; set; }
+        public int taza_imprevisto { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<cotizaciones> cotizaciones { get; set; }
