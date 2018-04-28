@@ -1,0 +1,21 @@
+﻿<UserControl x:Class="_vistalibre.items.ItemCostoUno"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:_vistalibre.items"
+             mc:Ignorable="d"
+            xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+            TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+            TextElement.FontWeight="Regular"
+            TextElement.FontSize="13"
+            TextOptions.TextFormattingMode="Ideal"
+            TextOptions.TextRenderingMode="Auto"
+            Background="{DynamicResource MaterialDesignPaper}"
+            FontFamily="{DynamicResource MaterialDesignFont}">
+    <StackPanel Orientation="Horizontal">
+        <Label x:Name="lbGlosa" Content="Detalle" VerticalAlignment="Center" Margin="4 8 4 0" Width="100"/>
+        <TextBox x:Name="txtValorInicial" Text="14000" materialDesign:HintAssist.Hint="Valor Inicial" Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+        <TextBox x:Name="txtCostoFinal" Text="369000" materialDesign:HintAssist.Hint="Costo Final" Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+    </StackPanel>
+</UserControl>
