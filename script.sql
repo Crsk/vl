@@ -55,10 +55,40 @@ CREATE TABLE `vanos` (
   FOREIGN KEY (`cotizacion_id`) REFERENCES `cotizaciones`(`id`)
 );
 
-CREATE TABLE `cotizaciones_complementarios` (
+CREATE TABLE `complementarios` (
   `id` int(11) AUTO_INCREMENT PRIMARY KEY,
   `monto` int(11) not null default '0',
   `detalle` varchar(50),
   `cotizacion_id` int(11),
   FOREIGN KEY (`cotizacion_id`) REFERENCES `cotizaciones`(`id`)
 );
+
+CREATE TABLE `tipo_costo` (
+  `id` int(11) AUTO_INCREMENT PRIMARY KEY,
+  `nombre` varchar(45),
+  `es_sueldo` tinyint(1)
+);
+INSERT INTO `tipo_costo` VALUES (NULL, 'Metro lineal sistema', 0);
+INSERT INTO `tipo_costo` VALUES (NULL, 'Area vano', 0);
+INSERT INTO `tipo_costo` VALUES (NULL, 'Aperturas', 0);
+INSERT INTO `tipo_costo` VALUES (NULL, 'Cantidad de aperturas', 0);
+INSERT INTO `tipo_costo` VALUES (NULL, 'Paneles', 0);
+INSERT INTO `tipo_costo` VALUES (NULL, 'Otro', 0);
+INSERT INTO `tipo_costo` VALUES (NULL, 'Instaladores fijo + cotizaciones + bonos meta', 1);
+INSERT INTO `tipo_costo` VALUES (NULL, 'Instaladores variables', 1);
+INSERT INTO `tipo_costo` VALUES (NULL, 'Reparaciones y/u otro', 1);
+INSERT INTO `tipo_costo` VALUES (NULL, 'Producción fijo + cotizaciones', 1);
+INSERT INTO `tipo_costo` VALUES (NULL, 'Producción variables', 1);
+INSERT INTO `tipo_costo` VALUES (NULL, 'Medición (viaje+sueldo+variable)', 1);
+
+CREATE TABLE `costos` (
+  `id` int(11) AUTO_INCREMENT PRIMARY KEY,
+  `valor_inicial` int(11),
+  `costo_final` int(11),
+  `tipo_costo_id` int(11),
+  `cotizacion_id` int(11),
+  FOREIGN KEY (`tipo_costo_id`) REFERENCES `tipo_costo`(`id`),
+  FOREIGN KEY (`cotizacion_id`) REFERENCES `cotizaciones`(`id`)
+);
+
+garantia nav entre producto y region, medio de pago

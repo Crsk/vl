@@ -13,9 +13,12 @@
             TextOptions.TextRenderingMode="Auto"
             Background="{DynamicResource MaterialDesignPaper}"
             FontFamily="{DynamicResource MaterialDesignFont}">
-    <StackPanel Orientation="Horizontal">
-        <Label x:Name="lbGlosa" Content="Detalle" VerticalAlignment="Center" Margin="4 8 4 0" Width="100"/>
-        <TextBox x:Name="txtValorInicial" Text="14000" materialDesign:HintAssist.Hint="Valor Inicial" Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
-        <TextBox x:Name="txtCostoFinal" Text="369000" materialDesign:HintAssist.Hint="Costo Final" Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+    <StackPanel Orientation="Horizontal" Margin="4">
+        <ComboBox x:Name="cbGlosa" Text="" VerticalAlignment="Center" Width="150" materialDesign:HintAssist.Hint="Glosa" Style="{StaticResource MaterialDesignFloatingHintComboBox}" Margin="0 0 8 0"/>
+        <TextBox x:Name="txtValorInicial" Text="14000" materialDesign:HintAssist.Hint="Valor Inicial" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="0 0 8 0"/>
+        <TextBox x:Name="txtCostoFinal" Text="369000" materialDesign:HintAssist.Hint="Costo Final" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="0 0 8 0"/>
+        <Button x:Name="btnBorrar">
+            <materialDesign:PackIcon Kind="DeleteForever" />
+        </Button>
     </StackPanel>
 </UserControl>

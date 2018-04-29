@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using _vistalibre.BLL;
+using System.Windows.Controls;
 
 namespace _vistalibre.items
 {
@@ -7,11 +8,24 @@ namespace _vistalibre.items
         public int ValorInicial { get; set; }
         public int CostoFinal { get; set; }
         public string Glosa { get; set; }
+        public bool EsSueldo { get; set; }
 
         public ItemCostoUno()
         {
             InitializeComponent();
-            lbGlosa.Content = Glosa;
+
+            Loaded += ItemCostoUno_Loaded;
+
+        }
+
+        private void ItemCostoUno_Loaded(object sender, System.Windows.RoutedEventArgs e)
+        {
+            if (EsSueldo == true)
+                cbGlosa.ItemsSource = TipoCostoBLL.ObtenerTipoSueldos();
+            else
+                cbGlosa.ItemsSource = TipoCostoBLL.ObtenerTipoCostos();
+
+            cbGlosa.DisplayMemberPath = "nombre";
             txtValorInicial.Text = $"{ValorInicial}";
             txtCostoFinal.Text = $"{CostoFinal}";
         }

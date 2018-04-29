@@ -25,9 +25,11 @@ namespace _vistalibre.model
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<complementarios> complementarios { get; set; }
+        public virtual DbSet<costos> costos { get; set; }
         public virtual DbSet<cotizaciones> cotizaciones { get; set; }
-        public virtual DbSet<cotizaciones_complementarios> cotizaciones_complementarios { get; set; }
         public virtual DbSet<regiones> regiones { get; set; }
+        public virtual DbSet<tipo_costo> tipo_costo { get; set; }
         public virtual DbSet<tipo_vidrio> tipo_vidrio { get; set; }
         public virtual DbSet<vanos> vanos { get; set; }
     }

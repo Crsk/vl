@@ -28,15 +28,40 @@ namespace _vistalibre
 
             btnCalcularVanos.Click += BtnCalcularVanos_Click;
 
-            Loaded += MainWindow_Loaded;
+            btnNuevaCotizacion.Click += BtnNuevaCotizacion_Click;
+
+            btnAgregarCosto.Click += BtnAgregarCosto_Click;
+
+            btnAgregarSueldo.Click += BtnAgregarSueldo_Click;
 
             txtCantVanos.Text = "1";
         }
 
-        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        private void BtnAgregarSueldo_Click(object sender, RoutedEventArgs e)
         {
-            var icu = new ItemCostoUno() { Glosa = "Metro lineal sistema", ValorInicial = 1 };
-            //spCostosUno.Children.Add()
+            var ic = new ItemCostoUno() { EsSueldo = true };
+            ic.btnBorrar.Click += (se, a) => spSueldos.Children.Remove(ic);
+            spSueldos.Children.Add(ic);
+        }
+
+        private void BtnAgregarCosto_Click(object sender, RoutedEventArgs e)
+        {
+            var ic = new ItemCostoUno() { EsSueldo = false };
+            ic.btnBorrar.Click += (se, a) => spCostos.Children.Remove(ic);
+            spCostos.Children.Add(ic);
+        }
+
+        private void BtnNuevaCotizacion_Click(object sender, RoutedEventArgs e)
+        {
+            int region_id = (cbRegiones.SelectedItem as regiones).id;
+            int tipo_vidrio_id = (cbTipoVidrio.SelectedItem as tipo_vidrio).id;
+            int descuento = 0; // TODO - implementar
+            cotizaciones cot = CotizacionBLL.Crear(region_id, tipo_vidrio_id, descuento);
+            
+            spVanos.Children.OfType<ItemVano>().ToList().ForEach(iv =>
+            {
+                VanosBLL.Crear(Convert.ToInt32(iv.txtCantAperturas.Text), Convert.ToDecimal(iv.txtAncho.Text), Convert.ToDecimal(iv.txtAlto.Text), cot.id);
+            });
         }
 
         private void BtnCalcularVanos_Click(object sender, RoutedEventArgs e)
@@ -48,7 +73,6 @@ namespace _vistalibre
 
                 spVanos.Children.OfType<ItemVano>().Where(x => x.txtAncho.Text != "").ToList().ForEach(iv => totalAnchoVanos += Convert.ToDecimal(iv.txtAncho.Text));
                 spVanos.Children.OfType<ItemVano>().Where(x => x.txtAlto.Text != "").ToList().ForEach(iv => totalAltoVanos += Convert.ToDecimal(iv.txtAlto.Text));
-                MessageBox.Show($"Total ancho: {totalAnchoVanos}, Total alto: {totalAltoVanos}");
                 wrapValores.Children.OfType<ItemValor>().Where(x => x.Procedencia == "calculo_vanos").ToList().ForEach(item => wrapValores.Children.Remove(item));
                 wrapValores.Children.Insert(0, new ItemValor() { Nombre = "Ancho vanos", ValorDecimal = totalAnchoVanos, Procedencia = "calculo_vanos" });
                 wrapValores.Children.Insert(0, new ItemValor() { Nombre = "Alto vanos", ValorDecimal = totalAltoVanos, Procedencia = "calculo_vanos" });

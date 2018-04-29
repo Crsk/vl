@@ -15,45 +15,71 @@
         FontFamily="{DynamicResource MaterialDesignFont}"
         Height="600" Width="620"
         WindowState="Maximized">
-    <Grid Margin="0 16 16 16" HorizontalAlignment="Left">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="auto"/>
-        </Grid.RowDefinitions>
-        <Grid Grid.Row="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="200"/>
-                <ColumnDefinition Width="170"/>
-                <ColumnDefinition Width="200"/>
-            </Grid.ColumnDefinitions>
-            <Grid Grid.Column="0" HorizontalAlignment="Center">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-                <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                    <StackPanel>
-                        <StackPanel x:Name="spVanos" Margin="0 8 8 8">
+    <Grid>
+
+        <Grid Margin="0 16 16 36" HorizontalAlignment="Left">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <Button x:Name="btnNuevaCotizacion" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="4">
+                <StackPanel Orientation="Horizontal">
+                    <materialDesign:PackIcon Kind="ContentSave" VerticalAlignment="Center"/>
+                    <Label Content="Guardar cotización" Foreground="#FFE5E5E5"/>
+                </StackPanel>
+            </Button>
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="200"/>
+                    <ColumnDefinition Width="170"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0" HorizontalAlignment="Center">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                        <StackPanel>
+                            <StackPanel x:Name="spVanos" Margin="0 8 8 8">
+                            </StackPanel>
+                            <StackPanel x:Name="spBtnCalcularVanos">
+                                <Button x:Name="btnCalcularVanos">
+                                    <materialDesign:PackIcon Kind="Calculator" />
+                                </Button>
+                            </StackPanel>
                         </StackPanel>
-                        <StackPanel x:Name="spBtnCalcularVanos">
-                            <Button x:Name="btnCalcularVanos">
-                                <materialDesign:PackIcon Kind="Calculator" />
+                    </ScrollViewer>
+                </Grid>
+                <StackPanel Grid.Column="1">
+                    <TextBox x:Name="txtCantVanos" materialDesign:HintAssist.Hint="Cant. Vanos" Style="{StaticResource MaterialDesignFloatingHintTextBox}" PreviewTextInput="NumberValidationTextBox" Margin="4"/>
+                    <ComboBox x:Name="cbRegiones" materialDesign:HintAssist.Hint="Region" Style="{StaticResource MaterialDesignFloatingHintComboBox}" Margin="4"/>
+                    <ComboBox x:Name="cbTipoVidrio" materialDesign:HintAssist.Hint="Tipo vidrio" Style="{StaticResource MaterialDesignFloatingHintComboBox}" Margin="4"/>
+                </StackPanel>
+                <Grid Grid.Column="2" Margin="36 0 0 0">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0 0 4 4">
+                            <Label Content="Costos" HorizontalAlignment="Center" Margin="4 4 8 4" Width="100"/>
+                            <Button x:Name="btnAgregarCosto">
+                                <materialDesign:PackIcon Kind="Plus" />
                             </Button>
                         </StackPanel>
+                        <StackPanel x:Name="spCostos" />
+
+                        <Separator Margin="16" Background="#FFDEDEDE" />
+
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0 0 4 4">
+                            <Label Content="Sueldos" HorizontalAlignment="Center" Margin="4 4 8 4" Width="100"/>
+                            <Button x:Name="btnAgregarSueldo">
+                                <materialDesign:PackIcon Kind="Plus" />
+                            </Button>
+                        </StackPanel>
+                        <StackPanel x:Name="spSueldos" />
                     </StackPanel>
-                </ScrollViewer>
+                </Grid>
             </Grid>
-            <StackPanel Grid.Column="1">
-                <TextBox x:Name="txtCantVanos" materialDesign:HintAssist.Hint="Cant. Vanos" Style="{StaticResource MaterialDesignFloatingHintTextBox}" PreviewTextInput="NumberValidationTextBox" Margin="4"/>
-                <ComboBox x:Name="cbRegiones" materialDesign:HintAssist.Hint="Region" Style="{StaticResource MaterialDesignFloatingHintComboBox}" Margin="4"/>
-                <ComboBox x:Name="cbTipoVidrio" materialDesign:HintAssist.Hint="Tipo vidrio" Style="{StaticResource MaterialDesignFloatingHintComboBox}" Margin="4"/>
-            </StackPanel>
-            <Grid Grid.Column="2" Margin="36 0 0 0">
-                <Label Content="Costos 1" HorizontalAlignment="Center" Margin="4"/>
-                <StackPanel x:Name="spCostosUno" />
+            <Grid Grid.Row="1" Background="#FFF1F1F1" Margin="0 8 0 0">
+                <WrapPanel x:Name="wrapValores" HorizontalAlignment="Center"/>
             </Grid>
-        </Grid>
-        <Grid Grid.Row="1" Background="#FFF1F1F1" Margin="0 8 0 0">
-            <WrapPanel x:Name="wrapValores" HorizontalAlignment="Center"/>
         </Grid>
     </Grid>
 </Window>

@@ -97,8 +97,13 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BLL\ComplementariosBLL.cs" />
+    <Compile Include="BLL\CostosBLL.cs" />
+    <Compile Include="BLL\CotizacionBLL.cs" />
     <Compile Include="BLL\RegionesBLL.cs" />
+    <Compile Include="BLL\TipoCostoBLL.cs" />
     <Compile Include="BLL\TipoVidrioBLL.cs" />
+    <Compile Include="BLL\VanosBLL.cs" />
     <Compile Include="items\ItemCostoUno.xaml.cs">
       <DependentUpon>ItemCostoUno.xaml</DependentUpon>
     </Compile>
@@ -114,10 +119,13 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="model\cotizaciones.cs">
+    <Compile Include="model\complementarios.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="model\cotizaciones_complementarios.cs">
+    <Compile Include="model\costos.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="model\cotizaciones.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="model\Model.Context.cs">
@@ -136,6 +144,9 @@
       <DependentUpon>Model.edmx</DependentUpon>
     </Compile>
     <Compile Include="model\regiones.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="model\tipo_costo.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="model\tipo_vidrio.cs">

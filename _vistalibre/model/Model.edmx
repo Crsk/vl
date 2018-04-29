@@ -5,6 +5,25 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="DataBaseModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.7" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="complementarios">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="monto" Type="int" Nullable="false" />
+          <Property Name="detalle" Type="varchar" MaxLength="50" />
+          <Property Name="cotizacion_id" Type="int" />
+        </EntityType>
+        <EntityType Name="costos">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="valor_inicial" Type="int" />
+          <Property Name="costo_final" Type="int" />
+          <Property Name="tipo_costo_id" Type="int" />
+          <Property Name="cotizacion_id" Type="int" />
+        </EntityType>
         <EntityType Name="cotizaciones">
           <Key>
             <PropertyRef Name="id" />
@@ -13,15 +32,6 @@
           <Property Name="region_id" Type="int" />
           <Property Name="tipo_vidrio_id" Type="int" />
           <Property Name="descuento" Type="int" Nullable="false" />
-        </EntityType>
-        <EntityType Name="cotizaciones_complementarios">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="monto" Type="int" Nullable="false" />
-          <Property Name="detalle" Type="varchar" MaxLength="50" />
-          <Property Name="cotizacion_id" Type="int" />
         </EntityType>
         <EntityType Name="regiones">
           <Key>
@@ -33,6 +43,14 @@
           <Property Name="nombre" Type="varchar" MaxLength="45" />
           <Property Name="costo_viaje" Type="int" Nullable="false" />
           <Property Name="taza_imprevisto" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tipo_costo">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="45" />
+          <Property Name="es_sueldo" Type="bool" />
         </EntityType>
         <EntityType Name="tipo_vidrio">
           <Key>
@@ -52,14 +70,38 @@
           <Property Name="alto" Type="decimal" Precision="6" Scale="2" />
           <Property Name="cotizacion_id" Type="int" />
         </EntityType>
-        <Association Name="cotizaciones_complementarios_ibfk_1">
+        <Association Name="complementarios_ibfk_1">
           <End Role="cotizaciones" Type="Self.cotizaciones" Multiplicity="0..1" />
-          <End Role="cotizaciones_complementarios" Type="Self.cotizaciones_complementarios" Multiplicity="*" />
+          <End Role="complementarios" Type="Self.complementarios" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="cotizaciones">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="cotizaciones_complementarios">
+            <Dependent Role="complementarios">
+              <PropertyRef Name="cotizacion_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="costos_ibfk_1">
+          <End Role="tipo_costo" Type="Self.tipo_costo" Multiplicity="0..1" />
+          <End Role="costos" Type="Self.costos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tipo_costo">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="costos">
+              <PropertyRef Name="tipo_costo_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="costos_ibfk_2">
+          <End Role="cotizaciones" Type="Self.cotizaciones" Multiplicity="0..1" />
+          <End Role="costos" Type="Self.costos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="cotizaciones">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="costos">
               <PropertyRef Name="cotizacion_id" />
             </Dependent>
           </ReferentialConstraint>
@@ -101,14 +143,24 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="DataBaseModelStoreContainer">
+          <EntitySet Name="complementarios" EntityType="Self.complementarios" Schema="vl_test" store:Type="Tables" />
+          <EntitySet Name="costos" EntityType="Self.costos" Schema="vl_test" store:Type="Tables" />
           <EntitySet Name="cotizaciones" EntityType="Self.cotizaciones" Schema="vl_test" store:Type="Tables" />
-          <EntitySet Name="cotizaciones_complementarios" EntityType="Self.cotizaciones_complementarios" Schema="vl_test" store:Type="Tables" />
           <EntitySet Name="regiones" EntityType="Self.regiones" Schema="vl_test" store:Type="Tables" />
+          <EntitySet Name="tipo_costo" EntityType="Self.tipo_costo" Schema="vl_test" store:Type="Tables" />
           <EntitySet Name="tipo_vidrio" EntityType="Self.tipo_vidrio" Schema="vl_test" store:Type="Tables" />
           <EntitySet Name="vanos" EntityType="Self.vanos" Schema="vl_test" store:Type="Tables" />
-          <AssociationSet Name="cotizaciones_complementarios_ibfk_1" Association="Self.cotizaciones_complementarios_ibfk_1">
+          <AssociationSet Name="complementarios_ibfk_1" Association="Self.complementarios_ibfk_1">
             <End Role="cotizaciones" EntitySet="cotizaciones" />
-            <End Role="cotizaciones_complementarios" EntitySet="cotizaciones_complementarios" />
+            <End Role="complementarios" EntitySet="complementarios" />
+          </AssociationSet>
+          <AssociationSet Name="costos_ibfk_1" Association="Self.costos_ibfk_1">
+            <End Role="tipo_costo" EntitySet="tipo_costo" />
+            <End Role="costos" EntitySet="costos" />
+          </AssociationSet>
+          <AssociationSet Name="costos_ibfk_2" Association="Self.costos_ibfk_2">
+            <End Role="cotizaciones" EntitySet="cotizaciones" />
+            <End Role="costos" EntitySet="costos" />
           </AssociationSet>
           <AssociationSet Name="cotizaciones_ibfk_1" Association="Self.cotizaciones_ibfk_1">
             <End Role="regiones" EntitySet="regiones" />
@@ -128,14 +180,24 @@
     <edmx:ConceptualModels>
       <Schema Namespace="DataBaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="DataBase" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="complementarios" EntityType="DataBaseModel.complementarios" />
+          <EntitySet Name="costos" EntityType="DataBaseModel.costos" />
           <EntitySet Name="cotizaciones" EntityType="DataBaseModel.cotizaciones" />
-          <EntitySet Name="cotizaciones_complementarios" EntityType="DataBaseModel.cotizaciones_complementarios" />
           <EntitySet Name="regiones" EntityType="DataBaseModel.regiones" />
+          <EntitySet Name="tipo_costo" EntityType="DataBaseModel.tipo_costo" />
           <EntitySet Name="tipo_vidrio" EntityType="DataBaseModel.tipo_vidrio" />
           <EntitySet Name="vanos" EntityType="DataBaseModel.vanos" />
-          <AssociationSet Name="cotizaciones_complementarios_ibfk_1" Association="DataBaseModel.cotizaciones_complementarios_ibfk_1">
+          <AssociationSet Name="complementarios_ibfk_1" Association="DataBaseModel.complementarios_ibfk_1">
             <End Role="cotizaciones" EntitySet="cotizaciones" />
-            <End Role="cotizaciones_complementarios" EntitySet="cotizaciones_complementarios" />
+            <End Role="complementarios" EntitySet="complementarios" />
+          </AssociationSet>
+          <AssociationSet Name="costos_ibfk_1" Association="DataBaseModel.costos_ibfk_1">
+            <End Role="tipo_costo" EntitySet="tipo_costo" />
+            <End Role="costos" EntitySet="costos" />
+          </AssociationSet>
+          <AssociationSet Name="costos_ibfk_2" Association="DataBaseModel.costos_ibfk_2">
+            <End Role="cotizaciones" EntitySet="cotizaciones" />
+            <End Role="costos" EntitySet="costos" />
           </AssociationSet>
           <AssociationSet Name="cotizaciones_ibfk_1" Association="DataBaseModel.cotizaciones_ibfk_1">
             <End Role="regiones" EntitySet="regiones" />
@@ -150,6 +212,28 @@
             <End Role="vanos" EntitySet="vanos" />
           </AssociationSet>
         </EntityContainer>
+        <EntityType Name="complementarios">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="monto" Type="Int32" Nullable="false" />
+          <Property Name="detalle" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="cotizacion_id" Type="Int32" />
+          <NavigationProperty Name="cotizaciones" Relationship="DataBaseModel.complementarios_ibfk_1" FromRole="complementarios" ToRole="cotizaciones" />
+        </EntityType>
+        <EntityType Name="costos">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="valor_inicial" Type="Int32" />
+          <Property Name="costo_final" Type="Int32" />
+          <Property Name="tipo_costo_id" Type="Int32" />
+          <Property Name="cotizacion_id" Type="Int32" />
+          <NavigationProperty Name="tipo_costo" Relationship="DataBaseModel.costos_ibfk_1" FromRole="costos" ToRole="tipo_costo" />
+          <NavigationProperty Name="cotizaciones" Relationship="DataBaseModel.costos_ibfk_2" FromRole="costos" ToRole="cotizaciones" />
+        </EntityType>
         <EntityType Name="cotizaciones">
           <Key>
             <PropertyRef Name="id" />
@@ -158,20 +242,11 @@
           <Property Name="region_id" Type="Int32" />
           <Property Name="tipo_vidrio_id" Type="Int32" />
           <Property Name="descuento" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="cotizaciones_complementarios" Relationship="DataBaseModel.cotizaciones_complementarios_ibfk_1" FromRole="cotizaciones" ToRole="cotizaciones_complementarios" />
+          <NavigationProperty Name="complementarios" Relationship="DataBaseModel.complementarios_ibfk_1" FromRole="cotizaciones" ToRole="complementarios" />
+          <NavigationProperty Name="costos" Relationship="DataBaseModel.costos_ibfk_2" FromRole="cotizaciones" ToRole="costos" />
           <NavigationProperty Name="regiones" Relationship="DataBaseModel.cotizaciones_ibfk_1" FromRole="cotizaciones" ToRole="regiones" />
           <NavigationProperty Name="tipo_vidrio" Relationship="DataBaseModel.cotizaciones_ibfk_2" FromRole="cotizaciones" ToRole="tipo_vidrio" />
           <NavigationProperty Name="vanos" Relationship="DataBaseModel.vanos_ibfk_1" FromRole="cotizaciones" ToRole="vanos" />
-        </EntityType>
-        <EntityType Name="cotizaciones_complementarios">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="monto" Type="Int32" Nullable="false" />
-          <Property Name="detalle" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="cotizacion_id" Type="Int32" />
-          <NavigationProperty Name="cotizaciones" Relationship="DataBaseModel.cotizaciones_complementarios_ibfk_1" FromRole="cotizaciones_complementarios" ToRole="cotizaciones" />
         </EntityType>
         <EntityType Name="regiones">
           <Key>
@@ -184,6 +259,15 @@
           <Property Name="costo_viaje" Type="Int32" Nullable="false" />
           <Property Name="taza_imprevisto" Type="Int32" Nullable="false" />
           <NavigationProperty Name="cotizaciones" Relationship="DataBaseModel.cotizaciones_ibfk_1" FromRole="regiones" ToRole="cotizaciones" />
+        </EntityType>
+        <EntityType Name="tipo_costo">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="es_sueldo" Type="Boolean" />
+          <NavigationProperty Name="costos" Relationship="DataBaseModel.costos_ibfk_1" FromRole="tipo_costo" ToRole="costos" />
         </EntityType>
         <EntityType Name="tipo_vidrio">
           <Key>
@@ -205,14 +289,38 @@
           <Property Name="cotizacion_id" Type="Int32" />
           <NavigationProperty Name="cotizaciones" Relationship="DataBaseModel.vanos_ibfk_1" FromRole="vanos" ToRole="cotizaciones" />
         </EntityType>
-        <Association Name="cotizaciones_complementarios_ibfk_1">
+        <Association Name="complementarios_ibfk_1">
           <End Type="DataBaseModel.cotizaciones" Role="cotizaciones" Multiplicity="0..1" />
-          <End Type="DataBaseModel.cotizaciones_complementarios" Role="cotizaciones_complementarios" Multiplicity="*" />
+          <End Type="DataBaseModel.complementarios" Role="complementarios" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="cotizaciones">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="cotizaciones_complementarios">
+            <Dependent Role="complementarios">
+              <PropertyRef Name="cotizacion_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="costos_ibfk_1">
+          <End Type="DataBaseModel.tipo_costo" Role="tipo_costo" Multiplicity="0..1" />
+          <End Type="DataBaseModel.costos" Role="costos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tipo_costo">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="costos">
+              <PropertyRef Name="tipo_costo_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="costos_ibfk_2">
+          <End Type="DataBaseModel.cotizaciones" Role="cotizaciones" Multiplicity="0..1" />
+          <End Type="DataBaseModel.costos" Role="costos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="cotizaciones">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="costos">
               <PropertyRef Name="cotizacion_id" />
             </Dependent>
           </ReferentialConstraint>
@@ -253,28 +361,39 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="DataBaseModelStoreContainer" CdmEntityContainer="DataBase">
+          <EntitySetMapping Name="complementarios">
+            <EntityTypeMapping TypeName="DataBaseModel.complementarios">
+              <MappingFragment StoreEntitySet="complementarios">
+                <ScalarProperty Name="cotizacion_id" ColumnName="cotizacion_id" />
+                <ScalarProperty Name="detalle" ColumnName="detalle" />
+                <ScalarProperty Name="monto" ColumnName="monto" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="costos">
+            <EntityTypeMapping TypeName="DataBaseModel.costos">
+              <MappingFragment StoreEntitySet="costos">
+                <ScalarProperty Name="cotizacion_id" ColumnName="cotizacion_id" />
+                <ScalarProperty Name="tipo_costo_id" ColumnName="tipo_costo_id" />
+                <ScalarProperty Name="costo_final" ColumnName="costo_final" />
+                <ScalarProperty Name="valor_inicial" ColumnName="valor_inicial" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="cotizaciones">
             <EntityTypeMapping TypeName="DataBaseModel.cotizaciones">
               <MappingFragment StoreEntitySet="cotizaciones">
                 <ScalarProperty Name="descuento" ColumnName="descuento" />
                 <ScalarProperty Name="tipo_vidrio_id" ColumnName="tipo_vidrio_id" />
                 <ScalarProperty Name="region_id" ColumnName="region_id" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="cotizaciones_complementarios">
-            <EntityTypeMapping TypeName="DataBaseModel.cotizaciones_complementarios">
-              <MappingFragment StoreEntitySet="cotizaciones_complementarios">
-                <ScalarProperty Name="cotizacion_id" ColumnName="cotizacion_id" />
-                <ScalarProperty Name="detalle" ColumnName="detalle" />
-                <ScalarProperty Name="monto" ColumnName="monto" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -287,6 +406,15 @@
                 <ScalarProperty Name="nombre" ColumnName="nombre" />
                 <ScalarProperty Name="index" ColumnName="index" />
                 <ScalarProperty Name="codigo_reg" ColumnName="codigo_reg" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tipo_costo">
+            <EntityTypeMapping TypeName="DataBaseModel.tipo_costo">
+              <MappingFragment StoreEntitySet="tipo_costo">
+                <ScalarProperty Name="es_sueldo" ColumnName="es_sueldo" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

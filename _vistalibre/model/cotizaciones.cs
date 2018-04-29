@@ -17,7 +17,8 @@ namespace _vistalibre.model
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public cotizaciones()
         {
-            this.cotizaciones_complementarios = new HashSet<cotizaciones_complementarios>();
+            this.complementarios = new HashSet<complementarios>();
+            this.costos = new HashSet<costos>();
             this.vanos = new HashSet<vanos>();
         }
     
@@ -27,7 +28,9 @@ namespace _vistalibre.model
         public int descuento { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<cotizaciones_complementarios> cotizaciones_complementarios { get; set; }
+        public virtual ICollection<complementarios> complementarios { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<costos> costos { get; set; }
         public virtual regiones regiones { get; set; }
         public virtual tipo_vidrio tipo_vidrio { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
