@@ -1,0 +1,25 @@
+﻿<UserControl x:Class="_vistalibre.items.ItemDetalle"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:_vistalibre.items"
+             mc:Ignorable="d" 
+            xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+            TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+            TextElement.FontWeight="Regular"
+            TextElement.FontSize="13"
+            TextOptions.TextFormattingMode="Ideal"
+            TextOptions.TextRenderingMode="Auto"
+            FontFamily="{DynamicResource MaterialDesignFont}">
+    <StackPanel Orientation="Horizontal" Margin="4 4 16 4" Background="{x:Null}">
+        <Button x:Name="btnQuitarDetalle" Background="{x:Null}" BorderThickness="0" Foreground="#FFB72713" Margin="0 0 0 0" Width="50">
+            <materialDesign:PackIcon Kind="DeleteForever"/>
+        </Button>
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 1 0 0">
+            <Label x:Name="lbValorInicial" Content="15.000" Width="90"/>
+            <Label x:Name="lbCostoFinal" Content="183.000" Width="90"/>
+            <Label x:Name="lbDesgloce" Content="Metro lineal sistema"/>
+        </StackPanel>
+    </StackPanel>
+</UserControl>

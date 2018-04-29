@@ -13,25 +13,19 @@
         TextOptions.TextRenderingMode="Auto"
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}"
-        Height="600" Width="620"
+        Height="600" Width="1200"
         WindowState="Maximized">
     <Grid>
-
         <Grid Margin="0 16 16 36" HorizontalAlignment="Left">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
-            <Button x:Name="btnNuevaCotizacion" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="4">
-                <StackPanel Orientation="Horizontal">
-                    <materialDesign:PackIcon Kind="ContentSave" VerticalAlignment="Center"/>
-                    <Label Content="Guardar cotización" Foreground="#FFE5E5E5"/>
-                </StackPanel>
-            </Button>
             <Grid Grid.Row="0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="200"/>
-                    <ColumnDefinition Width="170"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="auto"/>
                 </Grid.ColumnDefinitions>
                 <Grid Grid.Column="0" HorizontalAlignment="Center">
@@ -51,29 +45,66 @@
                     </ScrollViewer>
                 </Grid>
                 <StackPanel Grid.Column="1">
-                    <TextBox x:Name="txtCantVanos" materialDesign:HintAssist.Hint="Cant. Vanos" Style="{StaticResource MaterialDesignFloatingHintTextBox}" PreviewTextInput="NumberValidationTextBox" Margin="4"/>
-                    <ComboBox x:Name="cbRegiones" materialDesign:HintAssist.Hint="Region" Style="{StaticResource MaterialDesignFloatingHintComboBox}" Margin="4"/>
-                    <ComboBox x:Name="cbTipoVidrio" materialDesign:HintAssist.Hint="Tipo vidrio" Style="{StaticResource MaterialDesignFloatingHintComboBox}" Margin="4"/>
-                </StackPanel>
-                <Grid Grid.Column="2" Margin="36 0 0 0">
-                    <StackPanel>
+                    <TextBox x:Name="txtCantVanos" materialDesign:HintAssist.Hint="Cant. Vanos" Style="{StaticResource MaterialDesignFloatingHintTextBox}" PreviewTextInput="NumberValidationTextBox" Margin="12" HorizontalAlignment="Left" Width="80"/>
+                    <ComboBox x:Name="cbRegiones" materialDesign:HintAssist.Hint="Region" Style="{StaticResource MaterialDesignFloatingHintComboBox}" Margin="12" HorizontalAlignment="Stretch"/>
+                    <ComboBox x:Name="cbTipoVidrio" materialDesign:HintAssist.Hint="Tipo vidrio" Style="{StaticResource MaterialDesignFloatingHintComboBox}" Margin="12" HorizontalAlignment="Stretch"/>
+                    <StackPanel Margin="8 0 8 8">
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0 0 4 4">
-                            <Label Content="Costos" HorizontalAlignment="Center" Margin="4 4 8 4" Width="100"/>
-                            <Button x:Name="btnAgregarCosto">
-                                <materialDesign:PackIcon Kind="Plus" />
-                            </Button>
+                            <StackPanel Orientation="Horizontal" Margin="4">
+                                <ComboBox x:Name="cbCostos" Text="" VerticalAlignment="Center" Width="150" materialDesign:HintAssist.Hint="Costo" Style="{StaticResource MaterialDesignFloatingHintComboBox}" Margin="0 0 8 0"/>
+                                <TextBox x:Name="txtValorInicialCosto" Text="" materialDesign:HintAssist.Hint="Valor Inicial" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="0 0 8 0"/>
+                                <TextBox x:Name="txtCostoFinalCosto" Text="" materialDesign:HintAssist.Hint="Costo Final" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="0 0 8 0"/>
+                                <Button x:Name="btnAgregarCosto">
+                                    <materialDesign:PackIcon Kind="Plus" />
+                                </Button>
+                            </StackPanel>
                         </StackPanel>
                         <StackPanel x:Name="spCostos" />
 
                         <Separator Margin="16" Background="#FFDEDEDE" />
 
-                        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0 0 4 4">
-                            <Label Content="Sueldos" HorizontalAlignment="Center" Margin="4 4 8 4" Width="100"/>
+                        <StackPanel Orientation="Horizontal" Margin="4">
+                            <ComboBox x:Name="cbSueldos" Text="" VerticalAlignment="Center" Width="150" materialDesign:HintAssist.Hint="Sueldo" Style="{StaticResource MaterialDesignFloatingHintComboBox}" Margin="0 0 8 0"/>
+                            <TextBox x:Name="txtValorInicialSueldo" Text="" materialDesign:HintAssist.Hint="Valor Inicial" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="0 0 8 0"/>
+                            <TextBox x:Name="txtCostoFinalSueldo" Text="" materialDesign:HintAssist.Hint="Costo Final" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="0 0 8 0"/>
                             <Button x:Name="btnAgregarSueldo">
                                 <materialDesign:PackIcon Kind="Plus" />
                             </Button>
                         </StackPanel>
                         <StackPanel x:Name="spSueldos" />
+                    </StackPanel>
+                </StackPanel>
+                <Grid Grid.Column="3" Margin="16 0 0 0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel Grid.Row="0" Background="#FFF1F1F1">
+                        <Label Content="D E T A L L E" HorizontalAlignment="Center" Margin="8 0 0 0"/>
+
+                        <StackPanel Orientation="Horizontal" Margin="4">
+                            <Grid Background="{x:Null}" Margin="0 0 0 0" Width="50">
+                            </Grid>
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 0 8 0">
+                                <Label Content="Valor inicial" Width="90" FontWeight="Bold"/>
+                                <Label Content="Costo final" Width="90" FontWeight="Bold"/>
+                                <Label Content="Desgloce" FontWeight="Bold"/>
+                            </StackPanel>
+                        </StackPanel>
+                        <StackPanel x:Name="spDetalle" >
+                            <ScrollViewer VerticalScrollBarVisibility="Auto">
+
+                            </ScrollViewer>
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Grid.Row="1">
+                        <StackPanel x:Name="spTotal" HorizontalAlignment="Center"/>
+                        <Button x:Name="btnNuevaCotizacion" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Margin="16" Panel.ZIndex="1">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="ContentSave" VerticalAlignment="Center"/>
+                                <Label Content="Guardar cotización" Foreground="#FFE5E5E5"/>
+                            </StackPanel>
+                        </Button>
                     </StackPanel>
                 </Grid>
             </Grid>

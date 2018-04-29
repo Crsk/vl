@@ -81,6 +81,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="items\ItemDetalle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="items\ItemValor.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -106,6 +110,9 @@
     <Compile Include="BLL\VanosBLL.cs" />
     <Compile Include="items\ItemCostoUno.xaml.cs">
       <DependentUpon>ItemCostoUno.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="items\ItemDetalle.xaml.cs">
+      <DependentUpon>ItemDetalle.xaml</DependentUpon>
     </Compile>
     <Compile Include="items\ItemValor.xaml.cs">
       <DependentUpon>ItemValor.xaml</DependentUpon>
